@@ -10,7 +10,7 @@
   ],
   "type": "typo3-cms-extension",
   "description": "Easy way to use selfhosted webfonts on your website. Supported webfont providers: Google Webfont",
-  "homepage": "https://github.com/TODO",
+  "homepage": "https://github.com/zotornit/t3x-webfonts",
   "license": "GPL-2.0-or-later",
   "keywords": [
     "typo3",
@@ -26,7 +26,7 @@
     "zotorn"
   ],
   "support": {
-    "issues": "https://github.com/TODO/issues"
+    "issues": "https://github.com/zotornit/t3x-webfonts/issues"
   },
   "autoload": {
     "psr-4": {
