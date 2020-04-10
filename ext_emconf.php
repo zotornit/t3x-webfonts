@@ -25,5 +25,10 @@ $EM_CONF['webfonts'] = array(
                 array(),
         ),
     'clearcacheonload' => true,
+    'autoload' => [
+        'psr-4' => [
+            'WEBFONTS\\Webfonts\\' => 'Classes'
+        ]
+    ]
 );
 
