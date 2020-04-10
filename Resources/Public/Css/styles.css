@@ -1,0 +1,63 @@
+.row2col {
+    overflow: hidden;
+}
+.row2col > .col {
+    float: left;
+    width: 50%;
+}
+
+
+#tx-webfonts-vueapp {
+    margin: 20px;
+}
+
+
+
+.contentbox {
+    margin-top: 30px;
+}
+
+.close-corner {
+    text-align: right;
+}
+
+.fontbox_container.left {
+    margin-right: 10px;
+}
+.fontbox_container.right {
+    margin-left: 10px;
+}
+
+
+.fontbox {
+    border-left: 5px solid lightgrey;
+    background-color: gainsboro;
+    cursor: pointer;
+    padding: 5px;
+    margin-bottom: 10px;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+}
+
+.fontbox p {
+    margin-bottom: 3px;
+}
+
+.fontbox:hover {
+    /*border: 1px solid lightgrey;*/
+    background-color: gainsboro;
+}
+
+
+.fontbox.selected {
+    border-left: 5px solid #79a548;
+    background-color: #f0f6e8;
+}
+
+
+.tab-content {
+    margin-top: 30px;
+}
+
+.toolbox {
+    margin-top: 30px;
+}

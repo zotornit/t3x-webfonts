@@ -1,0 +1,155 @@
+<f:be.pageRenderer
+        includeRequireJsModules="{
+            20: 'TYPO3/CMS/Webfonts/ModalVC',
+            30: 'TYPO3/CMS/Webfonts/GoogleFontOptionsVC',
+            40: 'TYPO3/CMS/Webfonts/WebfontsAPI',
+            1000: 'TYPO3/CMS/Webfonts/Webfonts'
+        }"
+/>
+
+<f:render partial="VueComponents/ModalVC"></f:render>
+<f:render partial="VueComponents/GoogleFontOptionsVC"></f:render>
+
+<div id="tx-webfonts-vueapp">
+
+    <tx-webfonts-modal-component
+            v-if="showModal"
+            @close="showModal = false; selectedFont = null;"
+            v-bind:font="selectedFont"
+    >
+    </tx-webfonts-modal-component>
+
+
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                <f:translate key="tab.installed_fonts.label" />
+            </a></li>
+            <li role="presentation"><a href="#googlewebfont" aria-controls="googlewebfont" role="tab" data-toggle="tab">
+                <f:translate key="tab.google_webfonts.label" /></a></li>
+        </ul>
+
+
+
+        <div class="toolbox">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="{f:translate(key: 'input.filter_for.placeholder')}" v-model="filter" @keydown.esc="unsetFilter()">
+                <span class="input-group-btn">
+                            <a class="btn btn-default" title="{f:translate(key: 'button.cancel.label')}" @click="unsetFilter()"
+                               href="#"
+                               data-original-title="{f:translate(key: 'button.cancel.label')}">
+                    <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-system-extension-configure"
+                          data-identifier="actions-system-extension-configure"> <span class="icon-markup">
+
+                        <f:image src="EXT:webfonts/Resources/Public/Icons/times-solid.svg" alt="Close"
+                                 width="16" height="16"/>
+
+                    </span> </span> </a>
+                      </span>
+            </div>
+        </div>
+
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+
+
+
+
+
+
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"><f:translate key="table.font_family.label" /></th>
+                        <th scope="col"><f:translate key="table.provider.label" /></th>
+                        <th scope="col"><f:translate key="table.version.label" /></th>
+                        <th scope="col"><f:translate key="table.action.label" /></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="font in listInstalledFonts"  v-if="passesFilter(font.family)" :key="font.id">
+                        <th scope="row">{{ font.family }}
+
+                            <template v-if="font.installation"><br />
+                                <f:translate key="fontrow.installed.text" /><span v-for="iv in font.installation.variants" class="label label-success" style="margin-right: 10px;">{{ iv }}</span>
+                            </template>
+
+                        </th>
+                        <td>{{ font.provider }}</td>
+                        <td>{{ font.version }}</td>
+                        <td>
+
+
+                            <a class="btn btn-default" title="{f:translate(key: 'button.manage.label')}" @click="options(font)"
+                               href="#"
+                               data-original-title="{f:translate(key: 'button.manage.label')}">
+                    <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-system-extension-configure"
+                          data-identifier="actions-system-extension-configure"> <span class="icon-markup"> <img
+                            src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-system-extension-configure.svg"
+                            width="16" height="16"> </span> </span> </a>
+
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="googlewebfont">
+
+
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"><f:translate key="table.font_family.label" /></th>
+                        <th scope="col"><f:translate key="table.provider.label" /></th>
+                        <th scope="col"><f:translate key="table.version.label" /></th>
+                        <th scope="col"><f:translate key="table.action.label" /></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="font in listGoogleWebfonts"  v-if="passesFilter(font.family)" :key="font.id">
+                        <th scope="row"> {{ font.family }}
+
+                            <template v-if="font.installation"><br />
+                                <f:translate key="fontrow.installed.text" /><span v-for="iv in font.installation.variants" class="label label-success" style="margin-right: 10px;">{{ iv }}</span>
+                            </template>
+
+                        </th>
+                        <td>{{ font.provider }}</td>
+                        <td>{{ font.version }}</td>
+                        <td>
+
+
+                            <a class="btn btn-default" title="{f:translate(key: 'button.manage.label')}" @click="options(font)"
+                               href="#"
+                               data-original-title="{f:translate(key: 'button.manage.label')}">
+                    <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-system-extension-configure"
+                          data-identifier="actions-system-extension-configure"> <span class="icon-markup"> <img
+                            src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-system-extension-configure.svg"
+                            width="16" height="16"> </span> </span> </a>
+
+
+
+
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

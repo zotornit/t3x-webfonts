@@ -1,0 +1,68 @@
+{
+  "name": "zotornit/webfonts",
+  "authors": [
+    {
+      "name": "Thomas Pronold",
+      "role": "Developer",
+      "homepage": "https://zotorn.de",
+      "email": "tp@zotorn.de"
+    }
+  ],
+  "type": "typo3-cms-extension",
+  "description": "Easy way to use selfhosted webfonts on your website. Supported webfont providers: Google Webfont",
+  "homepage": "https://github.com/TODO",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "typo3",
+    "webfonts",
+    "fonts",
+    "selfhosted",
+    "selfhosting",
+    "self-hosting",
+    "self-hosted",
+    "google webfonts",
+    "google fonts",
+    "zotornit",
+    "zotorn"
+  ],
+  "support": {
+    "issues": "https://github.com/TODO/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "WEBFONTS\\Webfonts\\": "Classes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WEBFONTS\\Webfonts\\Tests\\": "Tests/"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "require-dev": {
+    "typo3/cms-core": "^9.5",
+    "typo3/cms-frontend": "^9.5",
+    "typo3/cms-install": "^9.5",
+    "typo3/cms-about": "^9.5",
+    "typo3/testing-framework": "^4.11.0"
+  },
+  "require": {
+    "typo3/cms-core": "^9.5",
+    "zotornit/vuejs": "^1.0.0"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+    ]
+  },
+  "extra": {
+    "typo3/cms": {
+      "app-dir": ".Build",
+      "web-dir": ".Build/Web",
+      "extension-key": "webfonts"
+    }
+  }
+}

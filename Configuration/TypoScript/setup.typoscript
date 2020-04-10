@@ -1,0 +1,11 @@
+
+page.1586326082 = USER_INT
+page.1586326082 {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = Webfonts
+    pluginName = WebfontsPlugin
+    vendorName = WEBFONTS
+    controller = AutoSetup
+    action = autoSetup
+    settings < plugin.tx_webfonts.settings
+}

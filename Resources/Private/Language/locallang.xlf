@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-05-01T00:00:000" product-name="styleguide">
+		<header/>
+		<body>
+
+			<trans-unit id="tab.installed_fonts.label" xml:space="preserve">
+				<source>Installed fonts</source>
+			</trans-unit>
+			<trans-unit id="tab.google_webfonts.label" xml:space="preserve">
+				<source>Google Web Fonts</source>
+			</trans-unit>
+
+
+
+			<trans-unit id="table.font_family.label" xml:space="preserve">
+				<source>Font Family</source>
+			</trans-unit>
+			<trans-unit id="table.provider.label" xml:space="preserve">
+				<source>Provider</source>
+			</trans-unit>
+			<trans-unit id="table.version.label" xml:space="preserve">
+				<source>Version</source>
+			</trans-unit>
+			<trans-unit id="table.action.label" xml:space="preserve">
+				<source>Action</source>
+			</trans-unit>
+
+			<trans-unit id="button.manage.label" xml:space="preserve">
+				<source>Manage</source>
+			</trans-unit>
+			<trans-unit id="button.install.label" xml:space="preserve">
+				<source>Install</source>
+			</trans-unit>
+			<trans-unit id="button.delete.label" xml:space="preserve">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="button.cancel.label" xml:space="preserve">
+				<source>Cancel</source>
+			</trans-unit>
+
+
+			<trans-unit id="input.filter_for.placeholder" xml:space="preserve">
+				<source>Filter for...</source>
+			</trans-unit>
+
+			<trans-unit id="headline.charsets.label" xml:space="preserve">
+				<source>Charsets</source>
+			</trans-unit>
+			<trans-unit id="headline.variants.label" xml:space="preserve">
+				<source>Variants</source>
+			</trans-unit>
+			<trans-unit id="headline.actions.label" xml:space="preserve">
+				<source>Actions</source>
+			</trans-unit>
+			<trans-unit id="headline.usage.label" xml:space="preserve">
+				<source>Usage</source>
+			</trans-unit>
+
+
+
+			<trans-unit id="infobox.installed.title" xml:space="preserve">
+				<source>Font installed</source>
+			</trans-unit>
+			<trans-unit id="infobox.installed.description" xml:space="preserve">
+				<source>Font has been installed and is ready for use.</source>
+			</trans-unit>
+
+			<trans-unit id="infobox.uninstalled.title" xml:space="preserve">
+				<source>Font uninstalled</source>
+			</trans-unit>
+			<trans-unit id="infobox.uninstalled.description" xml:space="preserve">
+				<source>Font has been removed.</source>
+			</trans-unit>
+
+			<trans-unit id="infobox.error.title" xml:space="preserve">
+				<source>Error</source>
+			</trans-unit>
+			<trans-unit id="infobox.error.description" xml:space="preserve">
+				<source>An error has occured:</source>
+			</trans-unit>
+
+
+			<trans-unit id="fontrow.installed.text" xml:space="preserve">
+				<source>Installed: </source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>
