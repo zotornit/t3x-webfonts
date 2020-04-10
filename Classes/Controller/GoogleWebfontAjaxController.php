@@ -20,7 +20,7 @@ class GoogleWebfontAjaxController extends AjaxJsonController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function listAction(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function listAction(ServerRequestInterface $request): ResponseInterface
     {
         $fontsArr = GoogleWebfontHelperClient::jsonFontList();
 
@@ -44,7 +44,7 @@ class GoogleWebfontAjaxController extends AjaxJsonController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function installAction(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function installAction(ServerRequestInterface $request): ResponseInterface
     {
         if (!isset($request->getQueryParams()['id'])) {
             return $this->errorResponse(1586072448, 403, 'Font not provided');
