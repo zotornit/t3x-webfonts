@@ -15,7 +15,7 @@ $EM_CONF['webfonts'] = array(
         array(
             'depends' =>
                 array(
-                    'typo3' => '9.5.0-10.5.99',
+                    'typo3' => '9.5.0-10.4.99',
                     'php' => '7.2.0-7.4.99',
                     'vuejs' => '1.0.2-1.0.99',
                 ),
