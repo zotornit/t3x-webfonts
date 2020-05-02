@@ -1,16 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace WEBFONTS\Webfonts\Controller;
+namespace WEBFONTS\Webfonts\Google;
 
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Http\JsonResponse;
-use WEBFONTS\Webfonts\Google\APIGoogleFont;
-use WEBFONTS\Webfonts\Google\GoogleFont;
-use WEBFONTS\Webfonts\Google\GoogleFontInstallationManager;
-use WEBFONTS\Webfonts\Google\GoogleWebfontHelperClient;
+use WEBFONTS\Webfonts\Controller\AjaxJsonController;
 
 class GoogleWebfontAjaxController extends AjaxJsonController
 {
