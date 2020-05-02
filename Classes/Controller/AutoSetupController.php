@@ -6,6 +6,7 @@ namespace WEBFONTS\Webfonts\Controller;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WEBFONTS\Webfonts\Exception\WebfontsException;
+use WEBFONTS\Webfonts\Fontawesome\FontawesomeInstallationManager;
 use WEBFONTS\Webfonts\Google\GoogleFontInstallationManager;
 
 class AutoSetupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
@@ -27,25 +28,25 @@ class AutoSetupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 
     private function installFont($font)
     {
-        if (!isset($font['id'])) {
-            throw new WebfontsException('Cannot load font parameter \'id\' is missing.', 1586327403);
-        }
         if (!isset($font['provider'])) {
             throw new WebfontsException('Cannot load font parameter \'provider\' is missing.', 1586327404);
         }
-        if (!isset($font['charsets'])) {
-            throw new WebfontsException('Cannot load font parameter \'charsets\' is missing.', 1586327405);
-        }
-        if (!isset($font['variants'])) {
-            throw new WebfontsException('Cannot load font parameter \'subsets\' is missing.', 1586327406);
-        }
 
-        $id = $font['id'];
         $provider = $font['provider'];
-        $charsets = $font['charsets'];
-        $variants = $font['variants'];
 
         if ($provider === 'google_webfonts') {
+            if (!isset($font['id'])) {
+                throw new WebfontsException('Cannot load font parameter \'id\' is missing.', 1586327403);
+            }
+            if (!isset($font['charsets'])) {
+                throw new WebfontsException('Cannot load font parameter \'charsets\' is missing.', 1586327405);
+            }
+            if (!isset($font['variants'])) {
+                throw new WebfontsException('Cannot load font parameter \'subsets\' is missing.', 1586327406);
+            }
+            $id = $font['id'];
+            $charsets = $font['charsets'];
+            $variants = $font['variants'];
 
             $installManager = GoogleFontInstallationManager::getInstance();
             if (!$installManager->hasInstalled($id, $provider, $variants, $charsets)) {
@@ -62,8 +63,45 @@ class AutoSetupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 
             }
 
+            /** @var PageRenderer $pageRenderer */
             $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
             $pageRenderer->addCssLibrary('fileadmin/tx_webfonts/fonts/google_webfonts/' . $id . '/import.css');
+        }
+
+        if ($provider === 'fontawesome') {
+            if (!isset($font['version'])) {
+                throw new WebfontsException('Cannot load font parameter \'version\' is missing.', 1587756054);
+            }
+
+            $version = $font['version'];
+            $installManager = FontawesomeInstallationManager::getInstance();
+
+            if (!$installManager->hasInstalled($id, $provider, $variants, $charsets)) {
+                $installManager->installFont($version, $provider, [], []);
+            } else {
+                // TODO error handling
+            }
+            /** @var PageRenderer $pageRenderer */
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            $methods = $font['methods'] ?? 'css';
+            $methods = array_map('trim', explode(',', $methods));
+
+            $variants = $font['variants'] ?? 'all';
+            $variants = array_map('trim', explode(',', $variants));
+
+            $minified = filter_var($font['minified'] ?? true, FILTER_VALIDATE_BOOLEAN);
+
+            foreach ($methods as $method) {
+                $method = strtolower($method);
+                if (in_array($method, ['css', 'js'])) {
+                    foreach ($variants as $variant) {
+                        $variant = strtolower($variant);
+                        $pageRenderer->addCssLibrary('fileadmin/tx_webfonts/fonts/fontawesome/'
+                            . $version . '/fontawesome-free-'
+                            . $version . '-web/' . $method . '/' . $variant . '.' . ($minified ? 'min.' : '') . $method);
+                    }
+                }
+            }
         }
     }
 }
