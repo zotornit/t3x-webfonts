@@ -49,8 +49,7 @@ class AutoSetupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
             $variants = $font['variants'];
 
             $installManager = GoogleFontInstallationManager::getInstance();
-            if (!$installManager->hasInstalled($id, $provider, $variants, $charsets)) {
-
+            if (!$installManager->hasInstalled($font)) {
                 $requiredVariants = array_map('trim', explode(',', $variants));
                 $requiredSubsets = array_map('trim', explode(',', $charsets));
 
@@ -70,13 +69,19 @@ class AutoSetupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 
         if ($provider === 'fontawesome') {
             if (!isset($font['version'])) {
-                throw new WebfontsException('Cannot load font parameter \'version\' is missing.', 1587756054);
+                throw new WebfontsException('Cannot load font parameter \'version\' is missing.', 1588409870);
+            }
+            if (!isset($font['styles'])) {
+                throw new WebfontsException('Cannot load font parameter \'subsets\' is missing.', 1588409871);
             }
 
             $version = $font['version'];
+            $styles = $font['styles'] ?? 'all';
+            $styles = array_map('trim', explode(',', $styles));
             $installManager = FontawesomeInstallationManager::getInstance();
 
-            if (!$installManager->hasInstalled($id, $provider, $variants, $charsets)) {
+
+            if (!$installManager->hasInstalled($font)) {
                 $installManager->installFont($version, $provider, [], []);
             } else {
                 // TODO error handling
@@ -86,19 +91,16 @@ class AutoSetupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
             $methods = $font['methods'] ?? 'css';
             $methods = array_map('trim', explode(',', $methods));
 
-            $variants = $font['variants'] ?? 'all';
-            $variants = array_map('trim', explode(',', $variants));
-
             $minified = filter_var($font['minified'] ?? true, FILTER_VALIDATE_BOOLEAN);
 
             foreach ($methods as $method) {
                 $method = strtolower($method);
                 if (in_array($method, ['css', 'js'])) {
-                    foreach ($variants as $variant) {
-                        $variant = strtolower($variant);
+                    foreach ($styles as $style) {
+                        $style = strtolower($style);
                         $pageRenderer->addCssLibrary('fileadmin/tx_webfonts/fonts/fontawesome/'
                             . $version . '/fontawesome-free-'
-                            . $version . '-web/' . $method . '/' . $variant . '.' . ($minified ? 'min.' : '') . $method);
+                            . $version . '-web/' . $method . '/' . $style . '.' . ($minified ? 'min.' : '') . $method);
                     }
                 }
             }

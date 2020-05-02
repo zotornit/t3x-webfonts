@@ -5,7 +5,6 @@ namespace WEBFONTS\Webfonts\Utilities;
 
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use WEBFONTS\Webfonts\Model\Font;
 
 abstract class InstallationManager
 {
@@ -28,43 +27,12 @@ abstract class InstallationManager
             file_put_contents($this->CONFIG_DIR . self::CONFIG_FILE, json_encode([]));
         }
 
-        self::$config = json_decode(file_get_contents($this->CONFIG_DIR . self::CONFIG_FILE), true);
+        self::$config = array_values(json_decode(file_get_contents($this->CONFIG_DIR . self::CONFIG_FILE), true));
     }
 
     final public function getInstalledFonts(): array
     {
         return self::$config;
-    }
-
-
-    /**
-     * @param Font|string $fontId
-     * @return bool
-     */
-    public function hasInstalled($fontId, $provider, $variants = [], $charsets = [])
-    {
-        foreach (self::$config as $font) {
-            if ($font['id'] === $fontId && $font['provider'] === $provider) {
-
-                if (is_array($variants)) {
-                    foreach ($variants as $variant) {
-                        if (!in_array($variant, $font['variants'])) {
-                            return false;
-                        }
-                    }
-                }
-
-                if (is_array($charsets)) {
-                    foreach ($charsets as $charset) {
-                        if (!in_array($charset, $font['subsets'])) {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-        }
-        return false;
     }
 
     function deleteFont($fontId, $provider)
@@ -96,7 +64,7 @@ abstract class InstallationManager
 
     private function saveConfig()
     {
-        file_put_contents($this->CONFIG_DIR . self::CONFIG_FILE, json_encode(self::$config));
+        file_put_contents($this->CONFIG_DIR . self::CONFIG_FILE, json_encode(array_values(self::$config)));
     }
 
     public function installDetails($fontId, $provider)
@@ -114,5 +82,7 @@ abstract class InstallationManager
     abstract protected function installFontImpl($font, $provider, $variants, $subsets);
 
     abstract protected function createCssImportFile($fontId, $provider, $variants);
+
+    abstract public function hasInstalled($font): bool;
 
 }

@@ -120,4 +120,32 @@ class GoogleFontInstallationManager extends InstallationManager
         throw new Exception("No font file found. Should never happen, when files were downloaded properly. ");
     }
 
+    public function hasInstalled($font): bool
+    {
+        $id = $font['id'] ?? '';
+        $variants = $font['variants'] ?? null;
+        $charsets = $font['charsets'] ?? null;
+        foreach (self::$config as $installedFont) {
+            if ($installedFont['provider'] === 'google_webfonts' && $installedFont['id'] === $id) {
+
+                if (is_array($variants)) {
+                    foreach ($variants as $variant) {
+                        if (!in_array($variant, $installedFont['variants'])) {
+                            return false;
+                        }
+                    }
+                }
+
+                if (is_array($charsets)) {
+                    foreach ($charsets as $charset) {
+                        if (!in_array($charset, $installedFont['subsets'])) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 }

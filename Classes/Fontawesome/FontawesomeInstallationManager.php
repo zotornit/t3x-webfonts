@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace WEBFONTS\Webfonts\Fontawesome;
 
-use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WEBFONTS\Webfonts\Utilities\InstallationManager;
 use WEBFONTS\Webfonts\Utilities\ZipUtilities;
@@ -39,10 +38,7 @@ class FontawesomeInstallationManager extends InstallationManager
 
         if ($unzipped) {
             self::$config[] = [
-                'id' => $versionAsId,
-                'provider' => $provider,
-                'variants' => $variants,
-                'subsets' => $subsets,
+                'provider' => 'fontawesome'
             ];
         } else {
             // TODO handle error
@@ -52,5 +48,16 @@ class FontawesomeInstallationManager extends InstallationManager
     protected function createCssImportFile($fontId, $provider, $variants)
     {
         // Not necessary for fontawesome
+    }
+
+    public function hasInstalled($font): bool
+    {
+        // Since Fontawesome ZIP contains everything, to specification is required.
+        foreach (self::$config as $installedFont) {
+            if ($installedFont['provider'] === 'fontawesome') {
+                return true;
+            }
+        }
+        return false;
     }
 }
