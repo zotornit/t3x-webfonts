@@ -37,14 +37,14 @@ Download webfonts for self-hosting
    This extension documentation is published under the GPL-2.0-or-later license
 
 :Keywords:
-   webfonts, fonts, selfhosted, selfhosting, self-hosting, self-hosted, google webfonts, google fonts, zotornit, zotorn
+   webfonts, fonts, selfhosted, selfhosting, self-hosting, self-hosted, google webfonts, google fonts, fontawesome, font, awesome, zotornit, zotorn
 
 
 .. MATCH EM_CONF
 
 Easy way to use self-hosted webfonts on your website.
 
-Currently only Google Webfonts is supported. The extension is build in a way that more webfont providers can be added in the future.
+Currently only Google Webfonts & Fontawesome are supported. The extension is build in a way that more webfont providers can be added in the future.
 
 
 What does it do?
@@ -61,6 +61,7 @@ Currently supported webfont providers
 --------------------------------------
 
 * `Google Fonts <https://fonts.google.com/>`__ via `google-webfonts-helper <https://google-webfonts-helper.herokuapp.com/fonts>`__ API
+* `Fontawesome <https://fontawesome.com/>`__
 
 
 
