@@ -6,6 +6,7 @@ namespace WEBFONTS\Webfonts\Google;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WEBFONTS\Webfonts\Utilities\InstallationManager;
+use WEBFONTS\Webfonts\Utilities\ZipUtilities;
 
 class GoogleFontInstallationManager extends InstallationManager
 {
@@ -34,14 +35,18 @@ class GoogleFontInstallationManager extends InstallationManager
         $zipStoragePath = GoogleWebfontHelperClient::downloadZIP($font, $subsets, $variants);
 
         // unzip font
-        $this->unzip($zipStoragePath, $storageFolder);
+        $unzipped = ZipUtilities::unzip($zipStoragePath, $storageFolder);
 
-        self::$config[] = [
-            'id' => $font,
-            'provider' => $provider,
-            'variants' => $variants,
-            'subsets' => $subsets,
-        ];
+        if ($unzipped) {
+            self::$config[] = [
+                'id' => $font,
+                'provider' => $provider,
+                'variants' => $variants,
+                'subsets' => $subsets,
+            ];
+        } else {
+            // TODO handle error
+        }
     }
 
     protected function createCssImportFile($fontId, $provider, $variants)
@@ -113,19 +118,6 @@ class GoogleFontInstallationManager extends InstallationManager
             }
         }
         throw new Exception("No font file found. Should never happen, when files were downloaded properly. ");
-    }
-
-    private function unzip($zipFile, $targetPath): bool
-    {
-        $zip = new \ZipArchive();
-        $res = $zip->open($zipFile);
-        if ($res === TRUE) {
-            $zip->extractTo($targetPath);
-            $zip->close();
-            unlink($zipFile);
-            return true;
-        }
-        return false;
     }
 
 }
