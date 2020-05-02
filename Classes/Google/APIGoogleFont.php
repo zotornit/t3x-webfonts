@@ -4,6 +4,8 @@
 namespace WEBFONTS\Webfonts\Google;
 
 
+use WEBFONTS\Webfonts\Exception\WebfontsException;
+
 class APIGoogleFont implements APIGoogleFontIF
 {
 
@@ -166,6 +168,7 @@ class APIGoogleFont implements APIGoogleFontIF
         if ($variantId === 'italic' || preg_match('/^\d*italic$/', $variantId)) {
             return 'italic';
         }
+        throw new WebfontsException('Unknown $variantId: ' . $variantId);
     }
 
     private function parseFontWeight($variantId)
@@ -177,6 +180,7 @@ class APIGoogleFont implements APIGoogleFontIF
         if (preg_match('/^(\d{2,4})\w*$/', $variantId, $m)) {
             return $m[1];
         }
+        throw new WebfontsException('Unknown $variantId: ' . $variantId);
     }
 
     function family(): string

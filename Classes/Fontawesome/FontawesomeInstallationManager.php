@@ -5,7 +5,7 @@ namespace WEBFONTS\Webfonts\Fontawesome;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WEBFONTS\Webfonts\Font\Font;
-use WEBFONTS\Webfonts\Utilities\InstallationManager;
+use WEBFONTS\Webfonts\Manager\InstallationManager;
 use WEBFONTS\Webfonts\Utilities\ZipUtilities;
 
 class FontawesomeInstallationManager extends InstallationManager
@@ -16,7 +16,7 @@ class FontawesomeInstallationManager extends InstallationManager
      *
      * @return FontawesomeInstallationManager
      */
-    public static function getInstance()
+    public static function getInstance(): FontawesomeInstallationManager
     {
         return GeneralUtility::makeInstance(__CLASS__);
     }
@@ -57,8 +57,6 @@ class FontawesomeInstallationManager extends InstallationManager
             self::$config[] = [
                 'provider' => 'fontawesome'
             ];
-        } else {
-            // TODO handle error
         }
     }
 

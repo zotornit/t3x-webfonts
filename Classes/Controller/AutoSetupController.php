@@ -5,13 +5,14 @@ namespace WEBFONTS\Webfonts\Controller;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use WEBFONTS\Webfonts\Exception\WebfontsException;
 use WEBFONTS\Webfonts\Fontawesome\FontawesomeFont;
 use WEBFONTS\Webfonts\Fontawesome\FontawesomeInstallationManager;
 use WEBFONTS\Webfonts\Google\GoogleFont;
 use WEBFONTS\Webfonts\Google\GoogleFontInstallationManager;
 
-class AutoSetupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class AutoSetupController extends ActionController
 {
 
 

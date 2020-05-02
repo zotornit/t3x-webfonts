@@ -6,7 +6,7 @@ namespace WEBFONTS\Webfonts\Google;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WEBFONTS\Webfonts\Font\Font;
-use WEBFONTS\Webfonts\Utilities\InstallationManager;
+use WEBFONTS\Webfonts\Manager\InstallationManager;
 use WEBFONTS\Webfonts\Utilities\ZipUtilities;
 
 class GoogleFontInstallationManager extends InstallationManager
@@ -56,8 +56,6 @@ class GoogleFontInstallationManager extends InstallationManager
                 'variants' => $font->getVariants(),
                 'subsets' => $font->getCharsets(),
             ];
-        } else {
-            // TODO handle error
         }
     }
 

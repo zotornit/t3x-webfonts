@@ -6,9 +6,10 @@ namespace WEBFONTS\Webfonts\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-abstract class AjaxJsonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+abstract class AjaxJsonController extends ActionController
 {
 
     /**
@@ -22,6 +23,7 @@ abstract class AjaxJsonController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     protected function initializeStandaloneView(ServerRequestInterface $request, string $templatePath): StandaloneView
     {
         $viewRootPath = GeneralUtility::getFileAbsFileName('EXT:webfonts/Resources/Private/');
+        /** @var StandaloneView $view */
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->getRequest()->setControllerExtensionName('Webfonts');
         $view->setTemplatePathAndFilename($viewRootPath . 'Templates/' . $templatePath);

@@ -40,6 +40,7 @@ class GoogleWebfontAjaxController extends AjaxJsonController
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws \WEBFONTS\Webfonts\Exception\WebfontsException
      */
     public function installAction(ServerRequestInterface $request): ResponseInterface
     {

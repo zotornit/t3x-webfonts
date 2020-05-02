@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WEBFONTS\Webfonts\Utilities;
+namespace WEBFONTS\Webfonts\Manager;
 
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

@@ -16,6 +16,8 @@ class GoogleFont extends Font
 
     /**
      * GoogleFont constructor.
+     * @param array|null $font
+     * @throws WebfontsException
      */
     public function __construct(array $font = null)
     {

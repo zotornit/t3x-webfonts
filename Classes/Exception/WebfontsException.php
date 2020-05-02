@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace WEBFONTS\Webfonts\Exception;
 
-class WebfontsException extends \TYPO3\CMS\Extbase\Exception
+use TYPO3\CMS\Core\Exception;
+
+class WebfontsException extends Exception
 {
 
 }

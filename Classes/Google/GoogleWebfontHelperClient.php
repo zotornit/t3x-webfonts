@@ -70,8 +70,8 @@ class GoogleWebfontHelperClient
     /**
      *
      *
-     * @param string $font
-     * @param array $subsets
+     * @param GoogleFont $font
+     * @param array $formats
      * @return string path to downloaded temporary zip file
      */
     public static function downloadZIP(GoogleFont $font, $formats = []): string

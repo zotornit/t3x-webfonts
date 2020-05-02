@@ -6,8 +6,9 @@ namespace WEBFONTS\Webfonts\Controller;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use VUEJS\Vuejs\Controller\VueBackendController;
 
-class WebfontsController extends \VUEJS\Vuejs\Controller\VueBackendController
+class WebfontsController extends VueBackendController
 {
 
     protected function initializeView(ViewInterface $view)
