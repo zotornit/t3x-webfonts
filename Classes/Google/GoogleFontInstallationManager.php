@@ -57,9 +57,11 @@ class GoogleFontInstallationManager extends InstallationManager
                 'subsets' => $font->getCharsets(),
             ];
         }
+
+        $this->createCssImportFile($font);
     }
 
-    protected function createCssImportFile(Font $font)
+    private function createCssImportFile(Font $font)
     {
         assert($font instanceof GoogleFont);
 

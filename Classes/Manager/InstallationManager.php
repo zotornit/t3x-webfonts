@@ -53,7 +53,6 @@ abstract class InstallationManager
         $this->deleteFont($font);
         $this->installFontImpl($font);
         $this->saveConfig();
-        $this->createCssImportFile($font);
     }
 
     private function saveConfig()
@@ -74,8 +73,6 @@ abstract class InstallationManager
     abstract protected function deleteFontImpl(Font $font);
 
     abstract protected function installFontImpl(Font $font);
-
-    abstract protected function createCssImportFile(Font $font);
 
     abstract public function hasInstalled(Font $font): bool;
 

@@ -60,11 +60,6 @@ class FontawesomeInstallationManager extends InstallationManager
         }
     }
 
-    protected function createCssImportFile(Font $font)
-    {
-        // Not necessary for fontawesome
-    }
-
     public function hasInstalled(Font $font): bool
     {
         // Since Fontawesome ZIP contains everything, to specification is required.
