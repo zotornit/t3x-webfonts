@@ -10,6 +10,9 @@
 			<trans-unit id="tab.google_webfonts.label" xml:space="preserve">
 				<source>Google Web Fonts</source>
 			</trans-unit>
+			<trans-unit id="tab.fontawesome.label" xml:space="preserve">
+				<source>Fontawesome</source>
+			</trans-unit>
 
 
 

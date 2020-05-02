@@ -29,14 +29,22 @@
             </a></li>
             <li role="presentation"><a href="#googlewebfont" aria-controls="googlewebfont" role="tab" data-toggle="tab">
                 <f:translate key="tab.google_webfonts.label" /></a></li>
+            <li role="presentation"><a href="#fontawesome" aria-controls="fontawesome" role="tab" data-toggle="tab">
+                <f:translate key="tab.fontawesome.label" /></a></li>
         </ul>
 
 
 
-        <div class="toolbox">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="{f:translate(key: 'input.filter_for.placeholder')}" v-model="filter" @keydown.esc="unsetFilter()">
-                <span class="input-group-btn">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+
+
+
+                <div class="toolbox">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="{f:translate(key: 'input.filter_for.placeholder')}" v-model="filter" @keydown.esc="unsetFilter()">
+                        <span class="input-group-btn">
                             <a class="btn btn-default" title="{f:translate(key: 'button.cancel.label')}" @click="unsetFilter()"
                                href="#"
                                data-original-title="{f:translate(key: 'button.cancel.label')}">
@@ -48,16 +56,8 @@
 
                     </span> </span> </a>
                       </span>
-            </div>
-        </div>
-
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="home">
-
-
-
+                    </div>
+                </div>
 
 
 
@@ -104,6 +104,24 @@
             <div role="tabpanel" class="tab-pane" id="googlewebfont">
 
 
+                <div class="toolbox">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="{f:translate(key: 'input.filter_for.placeholder')}" v-model="filter" @keydown.esc="unsetFilter()">
+                        <span class="input-group-btn">
+                            <a class="btn btn-default" title="{f:translate(key: 'button.cancel.label')}" @click="unsetFilter()"
+                               href="#"
+                               data-original-title="{f:translate(key: 'button.cancel.label')}">
+                    <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-system-extension-configure"
+                          data-identifier="actions-system-extension-configure"> <span class="icon-markup">
+
+                        <f:image src="EXT:webfonts/Resources/Public/Icons/times-solid.svg" alt="Close"
+                                 width="16" height="16"/>
+
+                    </span> </span> </a>
+                      </span>
+                    </div>
+                </div>
+
 
                 <table class="table">
                     <thead>
@@ -147,6 +165,33 @@
 
 
             </div>
+
+
+
+            <div role="tabpanel" class="tab-pane" id="fontawesome">
+
+
+
+                <p>Just add the following code to your typoscript. The extension will do the rest.</p>
+                <code>plugin.tx_webfonts.settings {<br>
+                    &nbsp;&nbsp;fonts {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;20 {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id=fontawesome<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;provider=fontawesome<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;version=5.13.0<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;methods=css<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;variants=all<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minified=true<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </code>
+                <p>Visit <a href="https://docs.typo3.org/p/zotornit/webfonts/master/en-us/" target="_blank">extension documentation</a> for a detailed parameter description</p>
+
+            </div>
+
+
+
         </div>
 
     </div>
