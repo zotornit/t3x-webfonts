@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WEBFONTS\Webfonts\Fontawesome;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use WEBFONTS\Webfonts\Font\Font;
 use WEBFONTS\Webfonts\Utilities\InstallationManager;
 use WEBFONTS\Webfonts\Utilities\ZipUtilities;
 
@@ -20,18 +21,34 @@ class FontawesomeInstallationManager extends InstallationManager
         return GeneralUtility::makeInstance(__CLASS__);
     }
 
-    public function deleteFontImpl($fontId, $provider)
+    public function deleteFontImpl(Font $font)
     {
-//        GeneralUtility::rmdir($this->FONT_DIR . $provider . '/' . $fontId, true);
+        if (!$font instanceof FontawesomeFont) {
+            return;
+        }
+        /** @var FontawesomeFont $font */
+        GeneralUtility::rmdir($this->FONT_DIR . $font->getProvider() . '/' . $font->getVersion(), true);
+
+        foreach (self::$config as $k => $font) {
+            if ($font->getProvider() === 'fontawesome') {
+                unset(self::$config[$k]);
+                break;
+            }
+        }
     }
 
-    protected function installFontImpl($versionAsId, $provider, $variants, $subsets)
+    protected function installFontImpl(Font $font)
     {
-        $storageFolder = $this->FONT_DIR . $provider . '/' . $versionAsId;
+        if (!$font instanceof FontawesomeFont) {
+            return;
+        }
+        /** @var FontawesomeFont $font */
+
+        $storageFolder = $this->FONT_DIR . $font->getProvider() . '/' . $font->getVersion();
         GeneralUtility::mkdir_deep($storageFolder);
 
         // download font
-        $zipStoragePath = FontawesomeHelperClient::downloadZIP($versionAsId);
+        $zipStoragePath = FontawesomeHelperClient::downloadZIP($font);
 
         // unzip font
         $unzipped = ZipUtilities::unzip($zipStoragePath, $storageFolder);
@@ -45,12 +62,12 @@ class FontawesomeInstallationManager extends InstallationManager
         }
     }
 
-    protected function createCssImportFile($fontId, $provider, $variants)
+    protected function createCssImportFile(Font $font)
     {
         // Not necessary for fontawesome
     }
 
-    public function hasInstalled($font): bool
+    public function hasInstalled(Font $font): bool
     {
         // Since Fontawesome ZIP contains everything, to specification is required.
         foreach (self::$config as $installedFont) {

@@ -68,13 +68,13 @@ The parameters are derived from `Fontawesome Documentation <https://fontawesome.
 
 **methods** (comma-separated list):
 
-* :typoscript:`css` `read more <https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself#using-web-fonts>`__
+* :typoscript:`css` (default) `read more <https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself#using-web-fonts>`__
 * :typoscript:`js` `read more <https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself#using-svg>`__
 
 **styles** (comma-separated list):
 
 * List of `Fontawesome styles <https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself#using-certain-styles>`__
-  Choose :typoscript:`all` or mix off: :typoscript:`brands`, :typoscript:`fontawesome`, :typoscript:`regular`, :typoscript:`solid`
+  Choose :typoscript:`all` (default) or mix off: :typoscript:`brands`, :typoscript:`fontawesome`, :typoscript:`regular`, :typoscript:`solid`
 
 .. hint::
 

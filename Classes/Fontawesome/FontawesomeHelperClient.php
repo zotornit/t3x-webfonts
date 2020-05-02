@@ -20,21 +20,22 @@ class FontawesomeHelperClient
     /**
      *
      *
-     * @param string $version
+     * @param FontawesomeFont $font
+     * @return string
      */
-    public static function downloadZIP($version): string
+    public static function downloadZIP(FontawesomeFont $font): string
     {
         $urlParts = [];
         $urlParts[] = 'https://use.fontawesome.com/releases/v';
-        $urlParts[] = $version;
+        $urlParts[] = $font->getVersion();
         $urlParts[] = '/fontawesome-free-';
-        $urlParts[] = $version;
+        $urlParts[] = $font->getVersion();
         $urlParts[] = '-web.zip';
 
         $content = GeneralUtility::getUrl(implode("", $urlParts), 0, null, $report); // TODO error handling
 
         $zipStorageFolder = Environment::getVarPath() . '/tx_webfonts/download/fontawesome';
-        $tempZipFile = $zipStorageFolder . '/fontawesome-free-' . $version . '-web.zip';
+        $tempZipFile = $zipStorageFolder . '/fontawesome-free-' . $font->getVersion() . '-web.zip';
 
         GeneralUtility::mkdir_deep($zipStorageFolder);
 

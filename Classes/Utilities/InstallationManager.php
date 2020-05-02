@@ -5,6 +5,7 @@ namespace WEBFONTS\Webfonts\Utilities;
 
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use WEBFONTS\Webfonts\Font\Font;
 
 abstract class InstallationManager
 {
@@ -35,31 +36,24 @@ abstract class InstallationManager
         return self::$config;
     }
 
-    function deleteFont($fontId, $provider)
+    function deleteFont(Font $font)
     {
-        if (!$this->hasInstalled($fontId, $provider)) {
+        if (!$this->hasInstalled($font)) {
             return;
         }
 
-        $this->deleteFontImpl($fontId, $provider);
-
-        foreach (self::$config as $k => $font) {
-            if ($font['id'] === $fontId && $font['provider'] === $provider) {
-                unset(self::$config[$k]);
-                break;
-            }
-        }
+        $this->deleteFontImpl($font);
 
         $this->saveConfig();
     }
 
 
-    public function installFont($font, $provider, $variants, $subsets)
+    public function installFont(Font $font)
     {
-        $this->deleteFont($font, $provider);
-        $this->installFontImpl($font, $provider, $variants, $subsets);
+        $this->deleteFont($font);
+        $this->installFontImpl($font);
         $this->saveConfig();
-        $this->createCssImportFile($font, $provider, $variants);
+        $this->createCssImportFile($font);
     }
 
     private function saveConfig()
@@ -77,12 +71,12 @@ abstract class InstallationManager
         return null;
     }
 
-    abstract protected function deleteFontImpl($fontId, $provider);
+    abstract protected function deleteFontImpl(Font $font);
 
-    abstract protected function installFontImpl($font, $provider, $variants, $subsets);
+    abstract protected function installFontImpl(Font $font);
 
-    abstract protected function createCssImportFile($fontId, $provider, $variants);
+    abstract protected function createCssImportFile(Font $font);
 
-    abstract public function hasInstalled($font): bool;
+    abstract public function hasInstalled(Font $font): bool;
 
 }

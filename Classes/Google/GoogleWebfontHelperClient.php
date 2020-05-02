@@ -39,7 +39,7 @@ class GoogleWebfontHelperClient
         return $arr;
     }
 
-    public static function jsonFont($id, $forceRefresh = false)
+    public static function jsonFont(string $id, $forceRefresh = false)
     {
         $cacheFile = Environment::getVarPath() . '/tx_webfonts/cache/google_webfonts/' . $id . '.json';
 
@@ -48,7 +48,7 @@ class GoogleWebfontHelperClient
         $refresh = $content === null || $forceRefresh;
 
         if ($refresh) {
-            $content = GeneralUtility::getUrl('https://google-webfonts-helper.herokuapp.com/api/fonts/' . $id, 0, null, $report); // TODO error handling
+            $content = GeneralUtility::getUrl('https://google-webfonts-helper.herokuapp.com/api/fonts/' .  $id, 0, null, $report); // TODO error handling
             GeneralUtility::mkdir_deep(dirname($cacheFile));
             file_put_contents($cacheFile, $content);
         }
@@ -72,25 +72,23 @@ class GoogleWebfontHelperClient
      *
      * @param string $font
      * @param array $subsets
-     * @param array $variants when empty then ALL variants will be requests
-     * @param array $formats when empty then ALL formats will be requests
      * @return string path to downloaded temporary zip file
      */
-    public static function downloadZIP($font, $subsets, $variants = [], $formats = []): string
+    public static function downloadZIP(GoogleFont $font, $formats = []): string
     {
         $urlParts = [];
         $urlParts[] = 'https://google-webfonts-helper.herokuapp.com/api/fonts/';
-        $urlParts[] = $font;
+        $urlParts[] = $font->getId();
         $urlParts[] = '?download=zip';
 
         $urlParts[] = GoogleWebfontHelperClient::comSepParams('formats', $formats);
-        $urlParts[] = GoogleWebfontHelperClient::comSepParams('variants', $variants);
-        $urlParts[] = GoogleWebfontHelperClient::comSepParams('subsets', $subsets);
+        $urlParts[] = GoogleWebfontHelperClient::comSepParams('variants', $font->getVariants());
+        $urlParts[] = GoogleWebfontHelperClient::comSepParams('subsets', $font->getCharsets());
 
         $content = GeneralUtility::getUrl(implode("", $urlParts), 0, null, $report); // TODO error handling
 
-        $zipStorageFolder = Environment::getVarPath() . '/tx_webfonts/download/' . $font;
-        $tempZipFile = $zipStorageFolder . '/' . $font . '.zip';
+        $zipStorageFolder = Environment::getVarPath() . '/tx_webfonts/download/' . $font->getId();
+        $tempZipFile = $zipStorageFolder . '/' . $font->getId() . '.zip';
 
         GeneralUtility::mkdir_deep($zipStorageFolder);
 

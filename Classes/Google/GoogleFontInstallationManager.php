@@ -5,6 +5,7 @@ namespace WEBFONTS\Webfonts\Google;
 
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use WEBFONTS\Webfonts\Font\Font;
 use WEBFONTS\Webfonts\Utilities\InstallationManager;
 use WEBFONTS\Webfonts\Utilities\ZipUtilities;
 
@@ -21,45 +22,56 @@ class GoogleFontInstallationManager extends InstallationManager
         return GeneralUtility::makeInstance(__CLASS__);
     }
 
-    public function deleteFontImpl($fontId, $provider)
+    public function deleteFontImpl($fontToDelete)
     {
-        GeneralUtility::rmdir($this->FONT_DIR . $provider . '/' . $fontId, true);
+        assert($fontToDelete instanceof GoogleFont);
+
+        GeneralUtility::rmdir($this->FONT_DIR . $fontToDelete->getProvider() . '/' . $fontToDelete->getId(), true);
+
+        foreach (self::$config as $k => $font) {
+            if ($font['id'] === $fontToDelete->getId() && $font['provider'] === $fontToDelete->getProvider()) {
+                unset(self::$config[$k]);
+                break;
+            }
+        }
     }
 
-    protected function installFontImpl($font, $provider, $variants, $subsets)
+    protected function installFontImpl(Font $font)
     {
-        $storageFolder = $this->FONT_DIR . $provider . '/' . $font;
+        assert($font instanceof GoogleFont);
+
+        $storageFolder = $this->FONT_DIR . $font->getProvider() . '/' . $font->getId();
         GeneralUtility::mkdir_deep($storageFolder);
 
         // download font
-        $zipStoragePath = GoogleWebfontHelperClient::downloadZIP($font, $subsets, $variants);
+        $zipStoragePath = GoogleWebfontHelperClient::downloadZIP($font);
 
         // unzip font
         $unzipped = ZipUtilities::unzip($zipStoragePath, $storageFolder);
 
         if ($unzipped) {
             self::$config[] = [
-                'id' => $font,
-                'provider' => $provider,
-                'variants' => $variants,
-                'subsets' => $subsets,
+                'id' => $font->getId(),
+                'provider' => $font->getProvider(),
+                'variants' => $font->getVariants(),
+                'subsets' => $font->getCharsets(),
             ];
         } else {
             // TODO handle error
         }
     }
 
-    protected function createCssImportFile($fontId, $provider, $variants)
+    protected function createCssImportFile(Font $font)
     {
-        $storageFolder = $this->FONT_DIR . $provider . '/' . $fontId;
+        assert($font instanceof GoogleFont);
 
+        $storageFolder = $this->FONT_DIR . $font->getProvider() . '/' . $font->getId();
         $files = GeneralUtility::getFilesInDir($storageFolder);
-
-        // download fontdetails
-        $fontdetails = GoogleWebfontHelperClient::jsonFont($fontId);
+        // download font details
+        $fontdetails = GoogleWebfontHelperClient::jsonFont($font->getId());
 
         $rows = [];
-        foreach ($variants as $variant) {
+        foreach ($font->getVariants() as $variant) {
 
 
             foreach ($fontdetails['variants'] as $detail) {
@@ -120,27 +132,20 @@ class GoogleFontInstallationManager extends InstallationManager
         throw new Exception("No font file found. Should never happen, when files were downloaded properly. ");
     }
 
-    public function hasInstalled($font): bool
+    public function hasInstalled(Font $font): bool
     {
-        $id = $font['id'] ?? '';
-        $variants = $font['variants'] ?? null;
-        $charsets = $font['charsets'] ?? null;
-        foreach (self::$config as $installedFont) {
-            if ($installedFont['provider'] === 'google_webfonts' && $installedFont['id'] === $id) {
+        assert($font instanceof GoogleFont);
 
-                if (is_array($variants)) {
-                    foreach ($variants as $variant) {
-                        if (!in_array($variant, $installedFont['variants'])) {
-                            return false;
-                        }
+        foreach (self::$config as $installedFont) {
+            if ($installedFont['provider'] === 'google_webfonts' && $installedFont['id'] === $font->getId()) {
+                foreach ($font->getVariants() as $variant) {
+                    if (!in_array($variant, $installedFont['variants'])) {
+                        return false;
                     }
                 }
-
-                if (is_array($charsets)) {
-                    foreach ($charsets as $charset) {
-                        if (!in_array($charset, $installedFont['subsets'])) {
-                            return false;
-                        }
+                foreach ($font->getCharsets() as $charset) {
+                    if (!in_array($charset, $installedFont['subsets'])) {
+                        return false;
                     }
                 }
                 return true;

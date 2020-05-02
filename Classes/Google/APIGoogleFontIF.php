@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace WEBFONTS\Webfonts\Model;
+namespace WEBFONTS\Webfonts\Google;
 
-interface Font extends \JsonSerializable
+interface APIGoogleFontIF extends \JsonSerializable
 {
     function id(): string;
 

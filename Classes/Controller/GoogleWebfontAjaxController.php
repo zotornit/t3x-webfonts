@@ -7,6 +7,7 @@ namespace WEBFONTS\Webfonts\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use WEBFONTS\Webfonts\Google\APIGoogleFont;
 use WEBFONTS\Webfonts\Google\GoogleFont;
 use WEBFONTS\Webfonts\Google\GoogleFontInstallationManager;
 use WEBFONTS\Webfonts\Google\GoogleWebfontHelperClient;
@@ -26,7 +27,7 @@ class GoogleWebfontAjaxController extends AjaxJsonController
 
         $list = [];
         foreach ($fontsArr as $font) {
-            $list[] = new GoogleFont($font);
+            $list[] = new APIGoogleFont($font);
         }
 
         return $this->jsonResponse(
@@ -60,10 +61,20 @@ class GoogleWebfontAjaxController extends AjaxJsonController
         $installationHandler = GoogleFontInstallationManager::getInstance();
 
         if ($subsets === null || $variants === null || count($variants) === 0 || count($subsets) === 0) { // uninstall
-            $installationHandler->deleteFont($id, $provider);
+            $installationHandler->deleteFont(new GoogleFont([
+                'provider' => $provider,
+                'id' => $id,
+                'variants' => [],
+                'charsets' => [],
+            ]));
             $state = 2;
         } else {
-            $installationHandler->installFont($id, $provider, $variants, $subsets);
+            $installationHandler->installFont(new GoogleFont([
+                'provider' => $provider,
+                'id' => $id,
+                'variants' => $variants,
+                'charsets' => $subsets,
+            ]));
             $state = 1;
         }
 
@@ -73,7 +84,7 @@ class GoogleWebfontAjaxController extends AjaxJsonController
         $list = [];
         foreach ($fontsArr as $font) {
             if ($font['id'] === $id) {
-                $list[] = new GoogleFont($font);
+                $list[] = new APIGoogleFont($font);
                 break;
             }
         }
