@@ -51,7 +51,9 @@
   },
   "require": {
     "typo3/cms-core": "^9.5 || ^10.4",
-    "zotornit/vuejs": "^1.0"
+    "zotornit/vuejs": "^1.0",
+    "ext-zip": "*",
+    "ext-json": "*"
   },
   "scripts": {
     "post-autoload-dump": [
