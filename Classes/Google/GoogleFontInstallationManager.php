@@ -88,8 +88,12 @@ class GoogleFontInstallationManager extends InstallationManager
 
                     // src: local('Open Sans Regular'), local('OpenSans-Regular'),
                     $localArr = [];
-                    foreach ($variantObj['local'] ?? [] as $local) {
-                        $localArr[] = "local('" . $local . "'),";
+                    if (isset($variantObj['local']) && is_array($variantObj['local'])) {
+                        foreach ($variantObj['local'] ?? [] as $local) {
+                            $localArr[] = "local('" . $local . "'),";
+                        }
+                    } else {
+                        $localArr[] = "local(''),";
                     }
                     $rows[] = "\tsrc: " . implode(" ", $localArr);
 
