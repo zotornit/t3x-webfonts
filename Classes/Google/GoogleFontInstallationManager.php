@@ -71,10 +71,10 @@ class GoogleFontInstallationManager extends InstallationManager
         $fontdetails = GoogleWebfontHelperClient::jsonFont($font->getId());
 
         $rows = [];
-        foreach ($font->getVariants() as $variant) {
+        foreach ($font->getVariants() ?? [] as $variant) {
 
 
-            foreach ($fontdetails['variants'] as $detail) {
+            foreach ($fontdetails['variants'] ?? [] as $detail) {
                 if ($detail['id'] === $variant) {
                     $variantObj = $detail;
 
