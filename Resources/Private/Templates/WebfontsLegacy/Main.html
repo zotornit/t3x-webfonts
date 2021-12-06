@@ -27,31 +27,16 @@
         <f:render partial="BetaHint" />
 
 
-
-        <!-- Nav tabs  TYPO3 11 -->
+        <!-- Nav tabs TYPO3 9&10-->
         <ul class="nav nav-tabs" role="tablist">
-
-            <li role="presentation" class="nav-item">
-                <a class="nav-link text-capitalize active" href="#home" aria-controls="home"
-                   role="tab" data-bs-toggle="tab">
-                    <f:translate key="tab.installed_fonts.label" />
-                </a>
-            </li>
-            <li role="presentation" class="nav-item">
-                <a class="nav-link text-capitalize" href="#googlewebfont" aria-controls="googlewebfont"
-                   role="tab" data-bs-toggle="tab">
-                    <f:translate key="tab.google_webfonts.label" />
-                </a>
-            </li>
-            <li role="presentation" class="nav-item">
-                <a class="nav-link text-capitalize" href="#fontawesome" aria-controls="fontawesome"
-                   role="tab" data-bs-toggle="tab">
-                    <f:translate key="tab.fontawesome.label" />
-                </a>
-            </li>
-
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                <f:translate key="tab.installed_fonts.label" />
+            </a></li>
+            <li role="presentation"><a href="#googlewebfont" aria-controls="googlewebfont" role="tab" data-toggle="tab">
+                <f:translate key="tab.google_webfonts.label" /></a></li>
+            <li role="presentation"><a href="#fontawesome" aria-controls="fontawesome" role="tab" data-toggle="tab">
+                <f:translate key="tab.fontawesome.label" /></a></li>
         </ul>
-
 
 
         <!-- Tab panes -->
@@ -65,6 +50,7 @@
             <div role="tabpanel" class="tab-pane" id="fontawesome">
                 <f:render partial="FontawesomeInstructions" />
             </div>
+        </div>
 
 
 

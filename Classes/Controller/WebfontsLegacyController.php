@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 namespace WEBFONTS\Webfonts\Controller;
 
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
-use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Backend\View\BackendTemplateView;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use VUEJS\Vuejs\Controller\VueBackendController;
+use VUEJS\Vuejs\Controller\VueBackendLegacyController;
 
-class WebfontsController extends VueBackendController
+// only to support TYPO3 10 for while
+class WebfontsLegacyController extends VueBackendLegacyController
 {
 
     protected function initializeView(ViewInterface $view)
@@ -25,14 +24,14 @@ class WebfontsController extends VueBackendController
         $pageRenderer->addCssFile('EXT:webfonts/Resources/Public/Css/modal.css');
         $pageRenderer->addCssFile('EXT:webfonts/Resources/Public/Css/styles.css');
 
+        $this->view->getModuleTemplate()->getDocHeaderComponent()->disable();
+
     }
 
 
     public function mainAction()
     {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($moduleTemplate->renderContent());
+
     }
 
 }
