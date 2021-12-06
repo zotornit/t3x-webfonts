@@ -26,7 +26,7 @@ class GoogleWebfontAjaxController extends AjaxJsonController
             $list[] = new APIGoogleFont($font);
         }
 
-        return $this->jsonResponse(
+        return $this->webfontsJsonResponse(
             [
                 'fonts' => $list,
                 'state' => 0,
@@ -86,7 +86,7 @@ class GoogleWebfontAjaxController extends AjaxJsonController
             }
         }
 
-        return $this->jsonResponse(
+        return $this->webfontsJsonResponse(
             [
                 'fonts' => $list,
                 'state' => $state

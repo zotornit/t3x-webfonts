@@ -33,7 +33,7 @@ abstract class AjaxJsonController extends ActionController
     }
 
 
-    protected function jsonResponse(array $payload, int $httpStatus = 200, string $message = 'OK')
+    protected function webfontsJsonResponse(array $payload, int $httpStatus = 200, string $message = 'OK'): \Psr\Http\Message\ResponseInterface
     {
         $response = new JsonResponse([
             'status' => $httpStatus,
