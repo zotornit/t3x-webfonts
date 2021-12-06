@@ -32,6 +32,7 @@ class FontawesomeFont extends Font
             $this->setVersion($font['version']);
             $this->setStyles(array_map('trim', explode(',', $font['styles'] ?? 'all')));
             $this->setMethods(array_map('trim', explode(',', $font['methods'] ?? 'css')));
+            $this->setProvider("fontawesome");
         }
     }
 
