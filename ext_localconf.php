@@ -11,6 +11,16 @@ call_user_func(function()
     );
 
 
+    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Imaging\IconRegistry::class
+    );
+    $iconRegistry->registerIcon(
+        'tx-webfonts-times-solid', // Icon-Identifier, e.g. tx-myext-action-preview
+        \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+        ['source' => 'EXT:webfonts/Resources/Public/Icons/times-solid.svg']
+    );
+
+
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'WEBFONTS.webfonts',
         'WebfontsPlugin',
