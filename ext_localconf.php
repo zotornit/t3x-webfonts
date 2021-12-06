@@ -15,11 +15,11 @@ call_user_func(function()
         'WEBFONTS.webfonts',
         'WebfontsPlugin',
         [
-            'AutoSetup' => 'autoSetup',
+            \WEBFONTS\Webfonts\Controller\AutoSetupController::class => 'autoSetup',
         ],
         // non-cacheable actions
         [
-            'AutoSetup' => 'autoSetup',
+            \WEBFONTS\Webfonts\Controller\AutoSetupController::class => 'autoSetup',
         ]
     );
 });
