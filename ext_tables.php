@@ -1,13 +1,12 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 defined('TYPO3_MODE') || die('Access denied.');
 
 call_user_func(
     function () {
 
-        $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionArray = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionStringToArray(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 
         //
         if ($typo3VersionArray['version_main'] >= 11 && $typo3VersionArray['version_sub'] >= 5) {
