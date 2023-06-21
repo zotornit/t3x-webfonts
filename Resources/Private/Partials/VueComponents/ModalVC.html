@@ -1,50 +1,44 @@
 <script type="text/x-template" id="tx-webfonts-modal-component">
-
     <transition name="modal">
         <div class="modal-mask">
             <div class="modal-wrapper" @click.self="$emit('close')">
                 <div class="modal-container">
-
                     <div class="modal-header">
-
-                        <div class="row2col">
-                            <div class="col">
-                                <slot name="header">
-                                    <h1>{{ font.family }}</h1>
-                                </slot>
-                            </div>
-                            <div class="col">
-                                <div class="close-corner">
-                                    <a href="#" @click="$emit('close')">
-                                        <f:image src="EXT:webfonts/Resources/Public/Icons/times-solid.svg" alt="Close"
-                                                 width="20" height="20"/>
-                                    </a>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <slot name="header">
+                                        <h1>{{ font.family }}</h1>
+                                    </slot>
                                 </div>
-                            </div>
+                                <div class="col-auto">
+                                    <div class="close-corner">
+                                        <a href="#" @click="$emit('close')">
+                                            <f:image src="EXT:webfonts/Resources/Public/Icons/times-solid.svg" alt="Close"
+                                                     width="20" height="20"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div
                         </div>
-
-
                     </div>
-
-
                     <div class="modal-body">
                         <slot name="body">
-
-
-                            <tx-webfonts-google-font-options-component
-                                    v-if="font.provider === 'google_webfonts'"
-                                    v-bind:font="font"
-                            >
-                            </tx-webfonts-google-font-options-component>
-
-
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col">
+                                        <tx-webfonts-google-font-options-component
+                                                v-if="font.provider === 'google_webfonts'"
+                                                v-bind:font="font"
+                                        >
+                                        </tx-webfonts-google-font-options-component>
+                                    </div>
+                                </div>
+                            </div>
                         </slot>
                     </div>
-
                 </div>
             </div>
         </div>
     </transition>
-
 </script>
-
