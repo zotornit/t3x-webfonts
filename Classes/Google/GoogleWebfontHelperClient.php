@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Consumes: https://google-webfonts-helper.herokuapp.com/api/fonts
+ * Consumes: https://gwfh.mranftl.com/api/fonts
  * Doc: https://github.com/majodev/google-webfonts-helper
  *
  * Class GoogleWebfontHelperClient
@@ -25,7 +25,7 @@ class GoogleWebfontHelperClient
         $refresh = $content === null || $forceRefresh;
 
         if ($refresh) {
-            $content = GeneralUtility::getUrl('https://google-webfonts-helper.herokuapp.com/api/fonts', 0, null, $report); // TODO error handling
+            $content = GeneralUtility::getUrl('https://gwfh.mranftl.com/api/fonts', 0, null, $report); // TODO error handling
             GeneralUtility::mkdir_deep(dirname($cacheFile));
             file_put_contents($cacheFile, $content);
         }
@@ -48,7 +48,7 @@ class GoogleWebfontHelperClient
         $refresh = $content === null || $forceRefresh;
 
         if ($refresh) {
-            $content = GeneralUtility::getUrl('https://google-webfonts-helper.herokuapp.com/api/fonts/' .  $id, 0, null, $report); // TODO error handling
+            $content = GeneralUtility::getUrl('https://gwfh.mranftl.com/api/fonts/' .  $id, 0, null, $report); // TODO error handling
             GeneralUtility::mkdir_deep(dirname($cacheFile));
             file_put_contents($cacheFile, $content);
         }
@@ -77,7 +77,7 @@ class GoogleWebfontHelperClient
     public static function downloadZIP(GoogleFont $font, $formats = []): string
     {
         $urlParts = [];
-        $urlParts[] = 'https://google-webfonts-helper.herokuapp.com/api/fonts/';
+        $urlParts[] = 'https://gwfh.mranftl.com/api/fonts/';
         $urlParts[] = $font->getId();
         $urlParts[] = '?download=zip';
 
