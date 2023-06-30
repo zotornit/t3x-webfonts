@@ -28,7 +28,7 @@ abstract class InstallationManager
             file_put_contents($this->CONFIG_DIR . self::CONFIG_FILE, json_encode([]));
         }
 
-        self::$config = array_values(json_decode(file_get_contents($this->CONFIG_DIR . self::CONFIG_FILE), true));
+        self::$config = array_values(json_decode(file_get_contents($this->CONFIG_DIR . self::CONFIG_FILE), true) ?? []);
     }
 
     final public function getInstalledFonts(): array
