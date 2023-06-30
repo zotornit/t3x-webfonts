@@ -63,7 +63,6 @@ define([
                     }
                 }, function (error) {
                     console.log(error);
-                    alert('unhandled error'); // TODO
                 });
             },
             // call thiswhen some fonts have changed their state
