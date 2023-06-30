@@ -10,7 +10,7 @@ $EM_CONF['webfonts'] = array(
     'state' => 'beta',
     'uploadfolder' => false,
     'clearCacheOnLoad' => 1,
-    'version' => '0.2.1',
+    'version' => '0.3.0',
     'constraints' =>
         array(
             'depends' =>
