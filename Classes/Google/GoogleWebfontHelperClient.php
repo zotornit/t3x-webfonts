@@ -21,16 +21,20 @@ class GoogleWebfontHelperClient
         $cacheFile = Environment::getVarPath() . '/tx_webfonts/cache/google_webfonts.json';
 
         $content = self::getCachedFile($cacheFile, 60 * 60 * 12); // 12h
+        $arr = null;
+        if($content !== null) {
+            $arr = json_decode($content, true);
+        }
 
-        $refresh = $content === null || $forceRefresh;
+        $refresh = $content === null || $forceRefresh || !is_array($arr);
 
         if ($refresh) {
+            $report = [];
             $content = GeneralUtility::getUrl('https://gwfh.mranftl.com/api/fonts', 0, null, $report); // TODO error handling
             GeneralUtility::mkdir_deep(dirname($cacheFile));
             file_put_contents($cacheFile, $content);
+            $arr = json_decode($content, true);
         }
-
-        $arr = json_decode($content, true);
 
         usort($arr, function ($a, $b) {
             return $a['family'] <=> $b['family'];

@@ -56,7 +56,7 @@ Fontawesome
         20 {
           id=fontawesome
           provider=fontawesome
-          version=5.13.0
+          version=6.4.0
           methods=css
           styles=all
           minified=true

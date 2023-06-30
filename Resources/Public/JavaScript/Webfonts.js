@@ -63,6 +63,7 @@ define([
                     }
                 }, function (error) {
                     console.log(error);
+                    alert('Error while downloading / parsing the webfonts API data'); // TODO
                 });
             },
             // call thiswhen some fonts have changed their state
