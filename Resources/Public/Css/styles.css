@@ -1,5 +1,8 @@
 .row2col {
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 .row2col > .col {
     float: left;
