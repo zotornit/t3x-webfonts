@@ -16,10 +16,8 @@
 }
 
 .modal-container {
-    min-width: 900px;
+    width: 900px;
     min-height: 600px;
-    width: 90vw;
-    height: 90vh;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;
