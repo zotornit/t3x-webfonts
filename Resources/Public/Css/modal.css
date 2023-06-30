@@ -16,6 +16,8 @@
 }
 
 .modal-container {
+    display: flex;
+    flex-direction: column;
     min-width: 900px;
     min-height: 600px;
     width: 90vw;
@@ -30,14 +32,17 @@
 }
 
 .modal-header h1 {
+    flex: 0 1 auto;
     margin-top: 0;
     margin-bottom: 0;
 }
 
 .modal-body {
+    flex: 1 1 auto;
     /*margin: 20px 0;*/
     padding-top: 12px;
     padding-bottom: 12px;
+    overflow: auto;
 }
 
 .modal-body h2 {
