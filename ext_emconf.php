@@ -10,13 +10,12 @@ $EM_CONF['webfonts'] = array(
     'state' => 'beta',
     'uploadfolder' => false,
     'clearCacheOnLoad' => 1,
-    'version' => '0.3.2',
+    'version' => '0.4.0',
     'constraints' =>
         array(
             'depends' =>
                 array(
-                    'typo3' => '10.4.0-11.5.99',
-                    'vuejs' => '1.1.0-1.1.99',
+                    'typo3' => '12.4.0-12.4.99',
                 ),
             'conflicts' =>
                 array(),

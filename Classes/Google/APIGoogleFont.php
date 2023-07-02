@@ -4,6 +4,7 @@
 namespace WEBFONTS\Webfonts\Google;
 
 
+use ReturnTypeWillChange;
 use WEBFONTS\Webfonts\Exception\WebfontsException;
 
 class APIGoogleFont implements APIGoogleFontIF
@@ -12,82 +13,65 @@ class APIGoogleFont implements APIGoogleFontIF
     /*
      * GoogleFontVariant[]
      */
-    private $variants;
-    private $subsets;
-    private $data;
-    private $id;
-    private $family ;
-    private $category;
-    private $version;
-    private $popularity;
-    private $defSubset;
-    private $defVariant;
+    private mixed $variants;
+    private mixed $subsets;
+    private mixed $id;
+    private mixed $family;
+    private mixed $category;
+    private mixed $version;
+    private mixed $defSubset;
+    private mixed $defVariant;
 
     public function __construct($apiFontData)
     {
-        $this->data = $apiFontData;
         $this->id = $apiFontData['id'];
         $this->family = $apiFontData['family'];
         $this->variants = $apiFontData['variants'];
         $this->subsets = $apiFontData['subsets'];
         $this->category = $apiFontData['category'];
         $this->version = $apiFontData['version'];
-        $this->popularity = $apiFontData['popularity'];
         $this->defSubset = $apiFontData['defSubset'];
         $this->defVariant = $apiFontData['defVariant'];
-    }
-
-    public function hasItalic(): bool
-    {
-        foreach ($this->variants as $variant) {
-            if (strpos($variant, 'italic') !== false) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function hasNormal(): bool
-    {
-        return true;
     }
 
     /**
      * @inheritDoc
      */
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id(),
-            'family' => $this->family(),
-            'variants' => $this->variants(),
-            'subsets' => $this->subsets(),
-            'category' => $this->category(),
-            'version' => $this->version(),
-            'defSubset' => $this->defSubset(),
-            'defVariant' => $this->defVariant(),
-            'provider' => $this->provider(),
-            'installation' => GoogleFontInstallationManager::getInstance()->installDetails($this->id, $this->provider()),
-            'cdn' => $this->cdn(),
+            'id' => $this->getId(),
+            'family' => $this->getFamily(),
+            'variants' => $this->getVariants(),
+            'subsets' => $this->getSubsets(),
+            'category' => $this->getCategory(),
+            'version' => $this->getVersion(),
+            'defSubset' => $this->getDefSubset(),
+            'defVariant' => $this->getDefVariant(),
+            'provider' => $this->getProvider(),
+            'installation' =>
+                GoogleFontInstallationManager::getInstance()->installDetails($this->id, $this->getProvider()),
+            'cdn' => $this->getCdn(),
             'usage' => $this->usage(),
             'fallback' => $this->fallback()
         ];
     }
 
-    function id(): string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    function provider(): string
+    public function getFamily(): string
     {
-        return 'google_webfonts';
+        return $this->family;
     }
 
     /**
      * @inheritDoc
      */
-    function variants(): array
+    public function getVariants(): array
     {
         return $this->variants;
     }
@@ -95,32 +79,37 @@ class APIGoogleFont implements APIGoogleFontIF
     /**
      * @inheritDoc
      */
-    function subsets(): array
+    public function getSubsets(): array
     {
         return $this->subsets;
     }
 
-    function category(): string
+    public function getCategory(): string
     {
         return $this->category;
     }
 
-    function version(): string
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    function defSubset(): string
+    public function getDefSubset(): string
     {
         return $this->defSubset;
     }
 
-    function defVariant(): string
+    public function getDefVariant(): string
     {
         return $this->defVariant;
     }
 
-    function cdn(): string
+    public function getProvider(): string
+    {
+        return 'google_webfonts';
+    }
+
+    public function getCdn(): string
     {
         // Format examples:
         // https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap
@@ -129,16 +118,16 @@ class APIGoogleFont implements APIGoogleFontIF
 
         $loaderURLArr = [
             "https://fonts.googleapis.com/css2?",
-            "family=" . str_replace(" ", "+", $this->family()),
-            $this->hasItalic() ? ":ital," : "",
+            "family=" . str_replace(" ", "+", $this->getFamily()),
+            $this->getHasItalic() ? ":ital," : "",
         ];
 
         // 0,100;
         $parts = [];
-        foreach ($this->variants() as $v) {
+        foreach ($this->getVariants() as $v) {
             $p = [];
 
-            if ($this->hasNormal() && $this->hasItalic()) {
+            if ($this->getHasNormal() && $this->getHasItalic()) {
                 $p[] = $this->parseFontStyle($v) === 'italic' ? 1 : 0;
                 $p[] = ",";
             }
@@ -150,7 +139,7 @@ class APIGoogleFont implements APIGoogleFontIF
         }
 
         if (count($parts) > 1) {
-            $loaderURLArr[] = $this->hasItalic() ? "wght@" : ":wght@";
+            $loaderURLArr[] = $this->getHasItalic() ? "wght@" : ":wght@";
             // order is important!!
             sort($parts);
             $parts[count($parts) - 1] = rtrim($parts[count($parts) - 1], ";");
@@ -158,6 +147,21 @@ class APIGoogleFont implements APIGoogleFontIF
         }
         $loaderURLArr[] = "&display=swap";
         return implode("", $loaderURLArr);
+    }
+
+    public function getHasItalic(): bool
+    {
+        foreach ($this->variants as $variant) {
+            if (strpos($variant, 'italic') !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getHasNormal(): bool
+    {
+        return true;
     }
 
     private function parseFontStyle($variantId)
@@ -183,14 +187,23 @@ class APIGoogleFont implements APIGoogleFontIF
         throw new WebfontsException('Unknown $variantId: ' . $variantId);
     }
 
-    function family(): string
+    private function usage()
     {
-        return $this->family;
+        $fallback = $this->fallback();
+        $r = [];
+        foreach ($this->getVariants() as $variant) {
+            $r[$variant] = [
+                'family' => '\'' . $this->getFamily() . '\', ' . $fallback,
+                'style' => $this->parseFontStyle($variant),
+                'weight' => $this->parseFontWeight($variant),
+            ];
+        }
+        return $r;
     }
 
     private function fallback()
     {
-        $cat = $this->category();
+        $cat = $this->getCategory();
         if ($cat === 'handwriting' || $cat === 'display') {
             return "cursive";
         }
@@ -201,20 +214,6 @@ class APIGoogleFont implements APIGoogleFontIF
             return "monospace";
         }
         return 'sans-serif';
-    }
-
-    private function usage()
-    {
-        $fallback = $this->fallback();
-        $r = [];
-        foreach ($this->variants() as $variant) {
-            $r[$variant] = [
-                'family' => '\'' . $this->family() . '\', ' . $fallback,
-                'style' => $this->parseFontStyle($variant),
-                'weight' => $this->parseFontWeight($variant),
-            ];
-        }
-        return $r;
     }
 
 }

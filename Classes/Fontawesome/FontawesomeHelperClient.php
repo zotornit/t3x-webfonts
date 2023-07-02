@@ -32,7 +32,7 @@ class FontawesomeHelperClient
         $urlParts[] = $font->getVersion();
         $urlParts[] = '-web.zip';
 
-        $content = GeneralUtility::getUrl(implode("", $urlParts), 0, null, $report); // TODO error handling
+        $content = GeneralUtility::getUrl(implode("", $urlParts)); // TODO error handling
 
         $zipStorageFolder = Environment::getVarPath() . '/tx_webfonts/download/fontawesome';
         $tempZipFile = $zipStorageFolder . '/fontawesome-free-' . $font->getVersion() . '-web.zip';

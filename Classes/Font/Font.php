@@ -6,7 +6,7 @@ namespace WEBFONTS\Webfonts\Font;
 
 abstract class Font
 {
-    protected $provider = '';
+    protected string $provider = '';
 
     /**
      * @return string

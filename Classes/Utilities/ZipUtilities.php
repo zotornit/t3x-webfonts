@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace WEBFONTS\Webfonts\Utilities;
 
 
+use ZipArchive;
+
 class ZipUtilities
 {
 
@@ -16,12 +18,14 @@ class ZipUtilities
 
     public static function unzip($zipFile, $targetPath): bool
     {
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
         $res = $zip->open($zipFile);
         if ($res === TRUE) {
             $zip->extractTo($targetPath);
             $zip->close();
-            unlink($zipFile);
+            if (is_file($zipFile)) {
+                unlink($zipFile);
+            }
             return true;
         }
         return false;

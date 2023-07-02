@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') || die();
+defined('TYPO3') || die();
 
 call_user_func(function()
 {
@@ -22,14 +22,14 @@ call_user_func(function()
 
 
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'WEBFONTS.webfonts',
+        'webfonts',
         'WebfontsPlugin',
         [
-            \WEBFONTS\Webfonts\Controller\AutoSetupController::class => 'autoSetup',
+            \WEBFONTS\Webfonts\Controller\TypescriptSetupController::class => 'setup',
         ],
         // non-cacheable actions
         [
-            \WEBFONTS\Webfonts\Controller\AutoSetupController::class => 'autoSetup',
+            \WEBFONTS\Webfonts\Controller\TypescriptSetupController::class => 'setup',
         ]
     );
 });

@@ -4,37 +4,39 @@ declare(strict_types=1);
 
 namespace WEBFONTS\Webfonts\Google;
 
-interface APIGoogleFontIF extends \JsonSerializable
+use JsonSerializable;
+
+interface APIGoogleFontIF extends JsonSerializable
 {
-    function id(): string;
+    public function getId(): string;
 
-    function family(): string;
+    public function getFamily(): string;
 
-    function provider(): string;
-
-    /**
-     * @return string[]
-     */
-    function variants(): array;
+    public function getProvider(): string;
 
     /**
      * @return string[]
      */
-    function subsets(): array;
+    public function getVariants(): array;
 
-    function category(): string;
+    /**
+     * @return string[]
+     */
+    public function getSubsets(): array;
 
-    function version(): string;
+    public function getCategory(): string;
 
-    function defSubset(): string;
+    public function getVersion(): string;
 
-    function defVariant(): string;
+    public function getDefSubset(): string;
 
-    function hasItalic(): bool;
+    public function getDefVariant(): string;
 
-    function hasNormal(): bool;
+    public function getHasItalic(): bool;
 
-    function cdn(): string;
+    public function getHasNormal(): bool;
+
+    public function getCdn(): string;
 
 
 }

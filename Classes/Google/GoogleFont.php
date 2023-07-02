@@ -10,9 +10,9 @@ use WEBFONTS\Webfonts\Font\Font;
 class GoogleFont extends Font
 {
 
-    private $id = '';
-    private $charsets = [];
-    private $variants = [];
+    private string $id = '';
+    private array $charsets = [];
+    private array $variants = [];
 
     /**
      * GoogleFont constructor.

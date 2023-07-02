@@ -16,21 +16,23 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GoogleWebfontHelperClient
 {
+
+    private const WEBFONTS_API_URL = 'https://gwfh.mranftl.com/api/fonts'; // no trailing /
+
     public static function jsonFontList($forceRefresh = false)
     {
         $cacheFile = Environment::getVarPath() . '/tx_webfonts/cache/google_webfonts.json';
 
         $content = self::getCachedFile($cacheFile, 60 * 60 * 12); // 12h
         $arr = null;
-        if($content !== null) {
+        if ($content !== null) {
             $arr = json_decode($content, true);
         }
 
         $refresh = $content === null || $forceRefresh || !is_array($arr);
 
         if ($refresh) {
-            $report = [];
-            $content = GeneralUtility::getUrl('https://gwfh.mranftl.com/api/fonts', 0, null, $report); // TODO error handling
+            $content = GeneralUtility::getUrl(GoogleWebfontHelperClient::WEBFONTS_API_URL); // TODO error handling
             GeneralUtility::mkdir_deep(dirname($cacheFile));
             file_put_contents($cacheFile, $content);
             $arr = json_decode($content, true);
@@ -41,23 +43,6 @@ class GoogleWebfontHelperClient
         });
 
         return $arr;
-    }
-
-    public static function jsonFont(string $id, $forceRefresh = false)
-    {
-        $cacheFile = Environment::getVarPath() . '/tx_webfonts/cache/google_webfonts/' . $id . '.json';
-
-        $content = self::getCachedFile($cacheFile, 60 * 60 * 12); // 12h
-
-        $refresh = $content === null || $forceRefresh;
-
-        if ($refresh) {
-            $content = GeneralUtility::getUrl('https://gwfh.mranftl.com/api/fonts/' .  $id, 0, null, $report); // TODO error handling
-            GeneralUtility::mkdir_deep(dirname($cacheFile));
-            file_put_contents($cacheFile, $content);
-        }
-
-        return json_decode($content, true);
     }
 
     private static function getCachedFile($file, $seconds)
@@ -71,6 +56,23 @@ class GoogleWebfontHelperClient
         return null;
     }
 
+    public static function jsonFont(string $id, $forceRefresh = false)
+    {
+        $cacheFile = Environment::getVarPath() . '/tx_webfonts/cache/google_webfonts/' . $id . '.json';
+
+        $content = self::getCachedFile($cacheFile, 60 * 60 * 12); // 12h
+
+        $refresh = $content === null || $forceRefresh;
+
+        if ($refresh) {
+            $content = GeneralUtility::getUrl(GoogleWebfontHelperClient::WEBFONTS_API_URL . '/' . $id); // TODO error handling
+            GeneralUtility::mkdir_deep(dirname($cacheFile));
+            file_put_contents($cacheFile, $content);
+        }
+
+        return json_decode($content, true);
+    }
+
     /**
      *
      *
@@ -81,7 +83,7 @@ class GoogleWebfontHelperClient
     public static function downloadZIP(GoogleFont $font, $formats = []): string
     {
         $urlParts = [];
-        $urlParts[] = 'https://gwfh.mranftl.com/api/fonts/';
+        $urlParts[] = GoogleWebfontHelperClient::WEBFONTS_API_URL . '/';
         $urlParts[] = $font->getId();
         $urlParts[] = '?download=zip';
 
@@ -89,7 +91,7 @@ class GoogleWebfontHelperClient
         $urlParts[] = GoogleWebfontHelperClient::comSepParams('variants', $font->getVariants());
         $urlParts[] = GoogleWebfontHelperClient::comSepParams('subsets', $font->getCharsets());
 
-        $content = GeneralUtility::getUrl(implode("", $urlParts), 0, null, $report); // TODO error handling
+        $content = GeneralUtility::getUrl(implode("", $urlParts)); // TODO error handling
 
         $zipStorageFolder = Environment::getVarPath() . '/tx_webfonts/download/' . $font->getId();
         $tempZipFile = $zipStorageFolder . '/' . $font->getId() . '.zip';

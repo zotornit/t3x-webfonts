@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  WEBFONTS\Webfonts\:
+    resource: '../Classes/*'
+    exclude:
+      - '../Classes/Controller/AjaxJsonController.php'
+
+#  WEBFONTS\Webfonts\Controller\WebfontsController:
+#    tags: ['webfonts.controller']

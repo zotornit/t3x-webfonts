@@ -1,0 +1,32 @@
+<div class="btn-group">
+
+    <f:link.action
+            action="listInstalledFonts"
+            controller="Webfonts"
+            title="Installed Fonts"
+            class="btn btn-default {f:if(condition: '{activeTab} == listInstalledFonts', then: 'active')}"
+    >
+        Installed Fonts
+    </f:link.action>
+
+
+    <f:link.action
+            action="listGoogleFonts"
+            controller="Webfonts"
+            title="Google Fonts"
+            class="btn btn-default {f:if(condition: '{activeTab} == listGoogleFonts', then: 'active')}"
+    >
+        Google Fonts
+    </f:link.action>
+
+    <f:link.action
+            action="listFontawesomeFonts"
+            controller="Webfonts"
+            title="Fontawesome Free"
+            class="btn btn-default {f:if(condition: '{activeTab} == listFontawesomeFonts', then: 'active')}"
+    >
+        Fontawesome Free
+    </f:link.action>
+
+
+</div>

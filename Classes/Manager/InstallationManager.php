@@ -31,9 +31,21 @@ abstract class InstallationManager
         self::$config = array_values(json_decode(file_get_contents($this->CONFIG_DIR . self::CONFIG_FILE), true) ?? []);
     }
 
+    public function getFontsDir(): string
+    {
+        return $this->FONT_DIR;
+    }
+
     final public function getInstalledFonts(): array
     {
         return self::$config;
+    }
+
+    public function installFont(Font $font)
+    {
+        $this->deleteFont($font);
+        $this->installFontImpl($font);
+        $this->saveConfig();
     }
 
     function deleteFont(Font $font)
@@ -47,18 +59,16 @@ abstract class InstallationManager
         $this->saveConfig();
     }
 
+    abstract public function hasInstalled(Font $font): bool;
 
-    public function installFont(Font $font)
-    {
-        $this->deleteFont($font);
-        $this->installFontImpl($font);
-        $this->saveConfig();
-    }
+    abstract protected function deleteFontImpl(Font $font);
 
     private function saveConfig()
     {
         file_put_contents($this->CONFIG_DIR . self::CONFIG_FILE, json_encode(array_values(self::$config)));
     }
+
+    abstract protected function installFontImpl(Font $font);
 
     public function installDetails($fontId, $provider)
     {
@@ -69,11 +79,5 @@ abstract class InstallationManager
         }
         return null;
     }
-
-    abstract protected function deleteFontImpl(Font $font);
-
-    abstract protected function installFontImpl(Font $font);
-
-    abstract public function hasInstalled(Font $font): bool;
 
 }

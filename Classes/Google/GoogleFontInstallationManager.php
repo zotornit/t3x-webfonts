@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace WEBFONTS\Webfonts\Google;
 
-use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use WEBFONTS\Webfonts\Exception\WebfontsException;
 use WEBFONTS\Webfonts\Font\Font;
 use WEBFONTS\Webfonts\Manager\InstallationManager;
 use WEBFONTS\Webfonts\Utilities\ZipUtilities;
@@ -22,34 +22,40 @@ class GoogleFontInstallationManager extends InstallationManager
         return GeneralUtility::makeInstance(__CLASS__);
     }
 
-    public function deleteFontImpl($fontToDelete)
+
+    public function installFontPreview(GoogleFont $font)
     {
-        assert($fontToDelete instanceof GoogleFont);
+        $path = $this->FONT_DIR . $font->getProvider() . '/_be-preview';
+        $files = GeneralUtility::getFilesInDir($path);
 
-        GeneralUtility::rmdir($this->FONT_DIR . $fontToDelete->getProvider() . '/' . $fontToDelete->getId(), true);
+        $alreadyInstalled = false;
 
-        foreach (self::$config as $k => $font) {
-            if ($font['id'] === $fontToDelete->getId() && $font['provider'] === $fontToDelete->getProvider()) {
-                unset(self::$config[$k]);
+        foreach ($files as $file) {
+            if (str_starts_with($file, $font->getId() . '-v')) {
+                $alreadyInstalled = true;
                 break;
             }
         }
+
+        if (!$alreadyInstalled) {
+            GeneralUtility::rmdir($path, true);
+            $this->installFontByPath($font, $this->FONT_DIR . $font->getProvider() . '/_be-preview', false);
+        }
     }
 
-    protected function installFontImpl(Font $font)
+    private function installFontByPath($font, $path, $handleAsInstalled = true)
     {
         assert($font instanceof GoogleFont);
 
-        $storageFolder = $this->FONT_DIR . $font->getProvider() . '/' . $font->getId();
-        GeneralUtility::mkdir_deep($storageFolder);
+        GeneralUtility::mkdir_deep($path);
 
         // download font
         $zipStoragePath = GoogleWebfontHelperClient::downloadZIP($font);
 
         // unzip font
-        $unzipped = ZipUtilities::unzip($zipStoragePath, $storageFolder);
+        $unzipped = ZipUtilities::unzip($zipStoragePath, $path);
 
-        if ($unzipped) {
+        if ($unzipped && $handleAsInstalled) {
             self::$config[] = [
                 'id' => $font->getId(),
                 'provider' => $font->getProvider(),
@@ -58,21 +64,19 @@ class GoogleFontInstallationManager extends InstallationManager
             ];
         }
 
-        $this->createCssImportFile($font);
+        $this->createCssImportFileByPath($font, $path);
     }
 
-    private function createCssImportFile(Font $font)
+    private function createCssImportFileByPath(Font $font, string $path)
     {
         assert($font instanceof GoogleFont);
 
-        $storageFolder = $this->FONT_DIR . $font->getProvider() . '/' . $font->getId();
-        $files = GeneralUtility::getFilesInDir($storageFolder);
+        $files = GeneralUtility::getFilesInDir($path);
         // download font details
         $fontdetails = GoogleWebfontHelperClient::jsonFont($font->getId());
 
         $rows = [];
         foreach ($font->getVariants() ?? [] as $variant) {
-
 
             foreach ($fontdetails['variants'] ?? [] as $detail) {
                 if ($detail['id'] === $variant) {
@@ -121,8 +125,8 @@ class GoogleFontInstallationManager extends InstallationManager
             }
         }
 
-        GeneralUtility::mkdir_deep($storageFolder);
-        file_put_contents($storageFolder . '/import.css', implode("\n", $rows));
+        GeneralUtility::mkdir_deep($path);
+        file_put_contents($path . '/import.css', implode("\n", $rows));
 
     }
 
@@ -133,7 +137,21 @@ class GoogleFontInstallationManager extends InstallationManager
                 return $file;
             }
         }
-        throw new Exception("No font file found. Should never happen, when files were downloaded properly. ");
+        throw new WebfontsException("No font file found. Should never happen, when files were downloaded properly. ");
+    }
+
+    public function deleteFontImpl($fontToDelete)
+    {
+        assert($fontToDelete instanceof GoogleFont);
+
+        GeneralUtility::rmdir($this->FONT_DIR . $fontToDelete->getProvider() . '/' . $fontToDelete->getId(), true);
+
+        foreach (self::$config as $k => $font) {
+            if ($font['id'] === $fontToDelete->getId() && $font['provider'] === $fontToDelete->getProvider()) {
+                unset(self::$config[$k]);
+                break;
+            }
+        }
     }
 
     public function hasInstalled(Font $font): bool
@@ -142,6 +160,7 @@ class GoogleFontInstallationManager extends InstallationManager
 
         foreach (self::$config as $installedFont) {
             if ($installedFont['provider'] === 'google_webfonts' && $installedFont['id'] === $font->getId()) {
+
                 foreach ($font->getVariants() as $variant) {
                     if (!in_array($variant, $installedFont['variants'])) {
                         return false;
@@ -156,5 +175,10 @@ class GoogleFontInstallationManager extends InstallationManager
             }
         }
         return false;
+    }
+
+    protected function installFontImpl(Font $font)
+    {
+        $this->installFontByPath($font, $this->FONT_DIR . $font->getProvider() . '/' . $font->getId());
     }
 }

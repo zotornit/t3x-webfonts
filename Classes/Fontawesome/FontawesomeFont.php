@@ -10,9 +10,9 @@ use WEBFONTS\Webfonts\Font\Font;
 class FontawesomeFont extends Font
 {
 
-    private $version = '';
-    private $styles = [];
-    private $methods = [];
+    private string $version = '';
+    private array $styles = [];
+    private array $methods = [];
 
     /**
      * FontawesomeFont constructor.

@@ -5,7 +5,7 @@ page.1586326082 {
     extensionName = Webfonts
     pluginName = WebfontsPlugin
     vendorName = WEBFONTS
-    controller = AutoSetup
-    action = autoSetup
+    controller = TypescriptSetup
+    action = setup
     settings < plugin.tx_webfonts.settings
 }

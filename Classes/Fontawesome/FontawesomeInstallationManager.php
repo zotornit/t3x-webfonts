@@ -37,6 +37,17 @@ class FontawesomeInstallationManager extends InstallationManager
         }
     }
 
+    public function hasInstalled(Font $font): bool
+    {
+        // Since Fontawesome ZIP contains everything, to specification is required.
+        foreach (self::$config as $installedFont) {
+            if ($installedFont['provider'] === 'fontawesome') {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected function installFontImpl(Font $font)
     {
         if (!$font instanceof FontawesomeFont) {
@@ -58,16 +69,5 @@ class FontawesomeInstallationManager extends InstallationManager
                 'provider' => 'fontawesome'
             ];
         }
-    }
-
-    public function hasInstalled(Font $font): bool
-    {
-        // Since Fontawesome ZIP contains everything, to specification is required.
-        foreach (self::$config as $installedFont) {
-            if ($installedFont['provider'] === 'fontawesome') {
-                return true;
-            }
-        }
-        return false;
     }
 }
